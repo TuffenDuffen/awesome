@@ -12,7 +12,7 @@ local this_path = "/home/tuffen/.config/awesome/theme/"
 
 local theme = {}
 
-theme.font          = "sans 8"
+theme.font          = "sans 9"
 
 theme.bg_normal     = "#222222"
 theme.bg_focus      = "#535d6c"

@@ -92,7 +92,8 @@ myawesomemenu = {
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
+                                    { "open terminal", terminal },
+                                    { "Shutdown", "bash -c poweroff" }
                                   }
                         })
 
@@ -103,14 +104,13 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
 
--- Keyboard map indicator and switcher
-mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock()
 
-myramusage = awful.widget.watch('bash -c "free -h | awk \'/^Mem|Swap/ {print $3}\' ORS=" * ""', 5)
+myramusage = awful.widget.watch('bash -c "free -h | awk \'/^Mem/ {print $3}\'"', 5)
+myswapusage = awful.widget.watch('bash -c "free -h | awk \'/^Swap/ {print $3}\'"', 5)
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -214,7 +214,7 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             myramusage,
-            mykeyboardlayout,
+            myswapusage,
             wibox.widget.systray(),
             mytextclock,
             s.mylayoutbox,
