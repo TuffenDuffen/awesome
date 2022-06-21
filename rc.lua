@@ -334,10 +334,12 @@ globalkeys = gears.table.join(
 
     -- Function keys
     awful.key({ }, "XF86MonBrightnessDown", function ()
-        awful.util.spawn("xbacklight -dec 10") end),
-        awful.key({ }, "XF86MonBrightnessUp", function ()
-            awful.util.spawn("xbacklight -inc 10") end),
-    
+        awful.util.spawn("xbacklight -dec 10") end,
+        {description = "decrease brighness", group = "screen"}),
+    awful.key({ }, "XF86MonBrightnessUp", function ()
+        awful.util.spawn("xbacklight -inc 10") end,
+        {description = "increase brightness", group = "screen"}),
+
     -- Show/Hide Wibox
     awful.key({ modkey }, "b", function ()
         for s in screen do
