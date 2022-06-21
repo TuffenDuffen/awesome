@@ -336,7 +336,18 @@ globalkeys = gears.table.join(
     awful.key({ }, "XF86MonBrightnessDown", function ()
         awful.util.spawn("xbacklight -dec 10") end),
         awful.key({ }, "XF86MonBrightnessUp", function ()
-            awful.util.spawn("xbacklight -inc 10") end)
+            awful.util.spawn("xbacklight -inc 10") end),
+    
+    -- Show/Hide Wibox
+    awful.key({ modkey }, "b", function ()
+        for s in screen do
+            s.mywibox.visible = not s.mywibox.visible
+            if s.mybottomwibox then
+                s.mybottomwibox.visible = not s.mybottomwibox.visible
+            end
+       end
+    end,
+    {description = "toggle wibox", group = "awesome"})
 )
 
 clientkeys = gears.table.join(
