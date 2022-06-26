@@ -99,13 +99,28 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 
 
 -- {{{ Wibar
+
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock()
+
+mywidget = wibox.widget.textbox(" | ")
+
+local function make_icon( code )
+    return wibox.widget{
+        font = beautiful.icon_font .. beautiful.icon_size,
+        markup = ' <span color="' .. beautiful.icon_color ..'">' .. code .. '</span>',
+        align = 'center',
+        valign = 'center',
+        widget = wibox.widget.textbox
+    }
+end
+
+memicon = make_icon('\u{f2db}')
 
 myramusage = awful.widget.watch('bash -c "free -h | awk \'/^Mem/ {print $3}\'"', 5)
 myswapusage = awful.widget.watch('bash -c "free -h | awk \'/^Swap/ {print $3}\'"', 5)
 
-mybattery = awful.widget.watch('bash -c "cat /sys/class/power_supply/BAT0/capacity"')
+mybattery = wibox.container.background(awful.widget.watch('bash -c "cat /sys/class/power_supply/BAT0/capacity"'), "#dddddd", gears.shape.rect)
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -208,11 +223,13 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
+            memicon,
             myramusage,
+            mywidget,
             myswapusage,
             wibox.widget.systray(),
-            mytextclock,
             mybattery,
+            mytextclock,
         },
     }
 end)
