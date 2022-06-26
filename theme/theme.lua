@@ -31,6 +31,11 @@ theme.border_normal = "#000000"
 theme.border_focus  = "#535d6c"
 theme.border_marked = "#91231c"
 
+-- Icon settings
+theme.icon_size = 12
+theme.icon_font = "Font Awesome 3 Free-Solid-900 "
+theme.icon_color = "#587d8d"
+
 -- There are other variable sets
 -- overriding the default one when
 -- defined, the sets are:
