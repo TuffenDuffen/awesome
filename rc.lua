@@ -105,6 +105,8 @@ mytextclock = wibox.widget.textclock()
 myramusage = awful.widget.watch('bash -c "free -h | awk \'/^Mem/ {print $3}\'"', 5)
 myswapusage = awful.widget.watch('bash -c "free -h | awk \'/^Swap/ {print $3}\'"', 5)
 
+mybattery = awful.widget.watch('bash -c "cat /sys/class/power_supply/BAT0/capacity"')
+
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
                     awful.button({ }, 1, function(t) t:view_only() end),
@@ -206,6 +208,7 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
+            mybattery,
             myramusage,
             myswapusage,
             wibox.widget.systray(),
