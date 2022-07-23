@@ -18,6 +18,9 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
+-- Vicious widget library
+local vicious = require("vicious")
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -103,8 +106,6 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock()
 
-mywidget = wibox.widget.textbox(" | ")
-
 local function make_icon( code )
     return wibox.widget{
         font = beautiful.icon_font .. beautiful.icon_size,
@@ -117,8 +118,9 @@ end
 
 memicon = make_icon('\u{f2db}')
 
-myramusage = awful.widget.watch('bash -c "free -h | awk \'/^Mem/ {print $3}\'"', 5)
-myswapusage = awful.widget.watch('bash -c "free -h | awk \'/^Swap/ {print $3}\'"', 5)
+memwidget = wibox.widget.textbox()
+vicious.cache(vicious.widgets.mem)
+vicious.register(memwidget, vicious.widgets.mem, "$1% | $5%", 10)
 
 mybattery = wibox.container.background(awful.widget.watch('bash -c "cat /sys/class/power_supply/BAT0/capacity"'), "#dddddd", gears.shape.rect)
 
@@ -224,9 +226,7 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             memicon,
-            myramusage,
-            mywidget,
-            myswapusage,
+            memwidget,
             wibox.widget.systray(),
             mybattery,
             mytextclock,
