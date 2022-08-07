@@ -18,7 +18,9 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
--- Vicious widget library
+-- Import topbar configuration
+local topbar = require("topbar")
+
 local vicious = require("vicious")
 
 -- {{{ Error handling
@@ -46,6 +48,9 @@ do
 end
 -- }}}
 
+-- Start fusuma
+awful.spawn.with_shell("~/.config/awesome/autorun.sh")
+
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init("/home/tuffen/.config/awesome/theme/theme.lua")
@@ -53,7 +58,7 @@ beautiful.init("/home/tuffen/.config/awesome/theme/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "alacritty"
-editor = os.getenv("EDITOR") or "nano"
+editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
@@ -102,27 +107,6 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 
 
 -- {{{ Wibar
-
--- Create a textclock widget
-mytextclock = wibox.widget.textclock()
-
-local function make_icon( code )
-    return wibox.widget{
-        font = beautiful.icon_font .. beautiful.icon_size,
-        markup = ' <span color="' .. beautiful.icon_color ..'">' .. code .. '</span>',
-        align = 'center',
-        valign = 'center',
-        widget = wibox.widget.textbox
-    }
-end
-
-memicon = make_icon('\u{f2db}')
-
-memwidget = wibox.widget.textbox()
-vicious.cache(vicious.widgets.mem)
-vicious.register(memwidget, vicious.widgets.mem, "$1% | $5%", 10)
-
-mybattery = wibox.container.background(awful.widget.watch('bash -c "cat /sys/class/power_supply/BAT0/capacity"'), "#dddddd", gears.shape.rect)
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -211,27 +195,7 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s })
-
-    -- Add widgets to the wibox
-    s.mywibox:setup {
-        layout = wibox.layout.align.horizontal,
-        { -- Left widgets
-            layout = wibox.layout.fixed.horizontal,
-            s.mylayoutbox,
-            s.mytaglist,
-            s.mypromptbox,
-        },
-        s.mytasklist, -- Middle widget
-        { -- Right widgets
-            layout = wibox.layout.fixed.horizontal,
-            memicon,
-            memwidget,
-            wibox.widget.systray(),
-            mybattery,
-            mytextclock,
-        },
-    }
+    s.mywibox = topbar.create(s)
 end)
 -- }}}
 
