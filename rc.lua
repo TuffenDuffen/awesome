@@ -21,8 +21,6 @@ require("awful.hotkeys_popup.keys")
 -- Import topbar configuration
 local topbar = require("topbar")
 
-local vicious = require("vicious")
-
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
