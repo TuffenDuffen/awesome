@@ -21,8 +21,8 @@ local swapicon = wibox.widget {
     widget = wibox.widget.textbox
 }
 
-local memtext = wibox.widget { widget = wibox.widget.textbox }
-local swaptext = wibox.widget { widget = wibox.widget.textbox }
+local memtext = wibox.widget.textbox()
+local swaptext = wibox.widget.textbox()
 
 vicious.cache(vicious.widgets.mem)
 vicious.register(memtext, vicious.widgets.mem, "$1%", 10)

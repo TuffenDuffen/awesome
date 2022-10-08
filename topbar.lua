@@ -13,8 +13,7 @@ local topbar = {}
 local mytextclock = wibox.widget.textclock()
 
 local memwidget = require("widgets.memory")
-
-local mybattery = wibox.container.background(awful.widget.watch('bash -c "cat /sys/class/power_supply/BAT0/capacity"'), "#dddddd", gears.shape.rect)
+local batwidget = require("widgets.battery")
 
 function topbar.create(screen)
     local bar = awful.wibar({ position = "top", screen = screen })
@@ -32,6 +31,7 @@ function topbar.create(screen)
             layout = wibox.layout.fixed.horizontal,
             memwidget,
             wibox.widget.systray(),
+            batwidget,
             mybattery,
             mytextclock,
         },
