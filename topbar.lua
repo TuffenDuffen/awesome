@@ -26,7 +26,7 @@ local memicon = make_icon('\u{f2db}')
 
 local memwidget = require("widgets.memory")
 
-mybattery = wibox.container.background(awful.widget.watch('bash -c "cat /sys/class/power_supply/BAT0/capacity"'), "#dddddd", gears.shape.rect)
+local mybattery = wibox.container.background(awful.widget.watch('bash -c "cat /sys/class/power_supply/BAT0/capacity"'), "#dddddd", gears.shape.rect)
 
 function topbar.create(screen)
     local bar = awful.wibar({ position = "top", screen = screen })
