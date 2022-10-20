@@ -32,7 +32,6 @@ function topbar.create(screen)
             memwidget,
             wibox.widget.systray(),
             batwidget,
-            mybattery,
             mytextclock,
         },
     }
